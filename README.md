@@ -1,8 +1,10 @@
 # nous-core
 
-**A Japanese-language cognitive engine that answers from a curated knowledge base — with zero runtime LLM dependency.**
+**An AI inference engine that reasons over a curated knowledge base — with zero runtime LLM dependency.**
 
-Most "AI chat" products today are a prompt-engineering layer over a remote LLM. That introduces three structural problems: per-token cost, hallucination on anything outside the training data, and external data egress. `nous-core` takes the opposite approach — a small, deterministic engine that parses intent, looks up answers in versioned "Books" (JSON), and returns a traceable response. No tokens, no external API calls, no hallucinated facts.
+Most "AI" products today are a prompt-engineering layer over a remote LLM. That introduces three structural problems: per-token cost, hallucination on anything outside the training data, and external data egress. `nous-core` takes the opposite approach — a small, deterministic inference engine that operates over versioned "Books" (JSON) and returns traceable results. No tokens, no external API calls, no hallucinated facts.
+
+The engine is general-purpose: dialogue, FAQ automation, internal knowledge search, customer-support routing, and policy-doc Q&A are all applications built on top of the same inference core.
 
 This is a sanitized public version of the engine powering several in-production AI products.
 
@@ -12,8 +14,8 @@ This is a sanitized public version of the engine powering several in-production 
 
 There is a class of business AI use cases where an LLM is the wrong tool:
 
-- **Customer support bots** for products with stable, finite knowledge (manuals, FAQs, policy docs)
-- **Internal knowledge assistants** where outbound data egress is not acceptable
+- **Customer support routing** for products with stable, finite knowledge (manuals, FAQs, policy docs)
+- **Internal knowledge search** where outbound data egress is not acceptable
 - **High-call-volume systems** where per-request token cost destroys margins
 - **Regulated domains** where every answer must be auditable back to a source document
 
