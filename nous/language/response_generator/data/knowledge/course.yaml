@@ -1,0 +1,40 @@
+category: course
+chunks:
+  - id: "roadmap_overview"
+    title: "学習コース全体ロードマップ"
+    body: |-
+      Step 1: マーケティング基礎 → Step 2: 集客チャネル (SNS/広告/SEO)
+      → Step 3: EC/LP 制作 → Step 4: 分析改善 (GA4) → Step 5: 実践
+      課題提出 → Step 6: 卒業プロジェクト。
+    intents: ["ask_roadmap", "ask_general"]
+    tags: ["ロードマップ", "全体像", "進め方", "ステップ"]
+
+  - id: "withdraw_flow"
+    title: "退会手続きの流れ"
+    body: |-
+      1. マイページ → アカウント設定
+      2. 「退会の手続き」を選択
+      3. アンケート (任意) に回答
+      4. 確認画面で「退会する」を押す
+      5. 退会完了メールが届きます (翌月以降の請求は停止)
+    intents: ["withdraw"]
+    tags: ["退会", "解約", "解除", "退会方法"]
+
+  - id: "faq_top"
+    title: "よくある質問 (FAQ)"
+    body: |-
+      ・受講料金 / プラン変更
+      ・課題の進め方と添削
+      ・サポート時間と問い合わせ窓口
+      ・退会・解約の流れ
+      FAQ ページに上記カテゴリ別の Q&A をまとめています。
+    intents: ["ask_faq"]
+    tags: ["FAQ", "よくある質問", "Q&A"]
+
+  - id: "study_task"
+    title: "課題の進め方"
+    body: |-
+      各カリキュラム末に課題があります。マイページから提出 → 講師が添削 →
+      フィードバックを反映 → 合格でステップ進行。
+    intents: ["ask_study"]
+    tags: ["課題", "添削", "ワーク"]

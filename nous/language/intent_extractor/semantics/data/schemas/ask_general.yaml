@@ -1,0 +1,9 @@
+schema_id: "ask_general"
+# generic info request — must_have なし。fallback として動く。
+priority: 30
+boost:
+  concepts: ["情報取得", "教示要求"]
+slots:
+  topic:
+    required: false
+    source: "wo|topic|no"

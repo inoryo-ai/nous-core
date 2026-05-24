@@ -1,0 +1,36 @@
+category: ga4
+chunks:
+  - id: "ga4_setup"
+    title: "GA4 の初期設定手順"
+    body: |-
+      1. Google Analytics でプロパティを作成
+      2. データストリームを Web に設定
+      3. 計測ID または gtag を Web サイトに設置
+      4. リアルタイムレポートで計測確認
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["GA4", "セットアップ", "初期設定", "使い方"]
+    aliases: ["GA4 設定", "Google Analytics 設定"]
+
+  - id: "ga4_events"
+    title: "GA4 のイベント計測"
+    body: |-
+      自動収集イベント (page_view, scroll, click) のほか、推奨イベント・
+      カスタムイベントを設定できます。GTM 連携が一般的です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["GA4", "イベント", "コンバージョン", "計測"]
+
+  - id: "ga4_conversion"
+    title: "GA4 のコンバージョン設定"
+    body: |-
+      イベントを「キーイベント」としてマークすると、コンバージョンとして
+      集計されます。広告連携の指標として利用可能です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["GA4", "コンバージョン", "CV", "計測"]
+
+  - id: "ga4_search_console"
+    title: "Search Console との連携"
+    body: |-
+      管理画面 → プロパティ設定 → Search Console リンクを設定すると、
+      検索クエリレポートが GA4 で閲覧できます。
+    intents: ["ask_lesson"]
+    tags: ["Search Console", "GA4", "連携", "サチコ"]

@@ -1,0 +1,10 @@
+schema_id: "ask_faq"
+priority: 60   # 具体的 meta concept (FAQ) を持つので汎用より優先
+must_have:
+  concepts: ["FAQ"]
+boost:
+  concepts: ["情報取得"]
+slots:
+  topic:
+    required: false
+    source: "wo|topic|no"

@@ -1,0 +1,10 @@
+schema_id: "ask_study"
+priority: 60
+must_have:
+  concepts: ["課題"]
+boost:
+  concepts: ["学習", "教示要求"]
+slots:
+  topic:
+    required: false
+    source: "wo|topic|no"

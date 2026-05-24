@@ -1,0 +1,16 @@
+schema_id: "ask_lesson"
+# 「<トピック> の使い方/やり方/方法 を教えて」型
+priority: 50
+must_have:
+  concepts: ["操作方法"]
+boost:
+  concepts: ["教示要求", "学習"]
+slots:
+  topic:
+    required: true
+    source: "wo|topic|no"
+    accept_categories: ["ga4", "ec", "sns", "ad", "seo", "web", "general", "marketing", "course"]
+  aspect:
+    required: false
+    source: "concept"
+    accept_concepts: ["操作方法"]

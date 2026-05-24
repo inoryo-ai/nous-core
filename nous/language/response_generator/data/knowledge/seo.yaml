@@ -1,0 +1,17 @@
+category: seo
+chunks:
+  - id: "seo_basic"
+    title: "SEO の基本構造"
+    body: |-
+      テクニカル (クローラビリティ・インデックス) / オンページ (キーワード・
+      内部リンク) / オフページ (被リンク・サイテーション) の 3 領域です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["SEO", "検索エンジン最適化"]
+
+  - id: "seo_keyword"
+    title: "キーワード選定の考え方"
+    body: |-
+      検索ボリューム × 競合性 × 自社の強み の交点を狙います。ロングテール
+      から積み上げる戦略が一般的です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["キーワード", "SEO", "検索順位"]

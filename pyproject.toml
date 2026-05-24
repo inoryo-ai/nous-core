@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nous-core"
+version = "0.1.0"
+description = "NOUS: LLM-free cognitive engine for business AI applications"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "Ryo Ino", email = "musasi20011026@gmail.com"}]
+keywords = ["ai", "nlp", "knowledge-graph", "japanese"]
+
+dependencies = []
+
+[project.optional-dependencies]
+server = [
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "pydantic>=2.0",
+    "websockets>=12.0",
+]
+dev = [
+    "pytest>=7.0",
+    "ruff>=0.1",
+    "mypy>=1.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["nous*"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

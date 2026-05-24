@@ -1,0 +1,31 @@
+# Orthographic variants — 表記揺れ正規化
+#
+# ⚠ 設計境界: 本ファイルは「同じ意味の表記揺れ」だけを扱う。
+# 意味的に異なる表現 (例: 教えてください → 教えて) を normalize すると
+# 統語層の sentence_type 判定や語用層の speech_act 判定に影響するため禁止。
+#
+# 同義語処理は:
+#   - 形態層: domain_terms.yaml の aliases (語の置き換え)
+#   - 意味層: concepts.yaml の surfaces (概念のクラスタ化)
+# で行うこと。
+#
+# 形式:
+#   variants:
+#     - canonical: "<正規形>"
+#       aliases:   ["<別表記1>", ...]
+#
+# NFKC で吸収されるものは記述不要 (全角英数→半角、半角カタカナ→全角)。
+
+variants:
+  # 大文字小文字の揺れのみ (NFKC では吸収されない)
+  - canonical: "GA4"
+    aliases: ["ga4", "Ga4"]
+
+  - canonical: "EC"
+    aliases: ["ec"]
+
+  - canonical: "SNS"
+    aliases: ["sns"]
+
+  - canonical: "SEO"
+    aliases: ["seo"]

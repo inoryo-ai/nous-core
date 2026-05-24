@@ -1,0 +1,43 @@
+category: sns
+chunks:
+  - id: "instagram_reel_basic"
+    title: "Instagram リールの作り方"
+    body: |-
+      1. アプリで「+」→「リール」を選択
+      2. 15-90 秒の動画を撮影 or アップロード
+      3. 音源・テキスト・エフェクトを追加
+      4. キャプションとハッシュタグを設定して投稿
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["Instagram", "リール", "Reels", "動画"]
+
+  - id: "instagram_story"
+    title: "ストーリーズの基本"
+    body: |-
+      24 時間で消える短尺コンテンツ。スタンプ・質問箱・カウントダウン等
+      インタラクションを生むパーツが豊富です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["Instagram", "ストーリーズ", "ストーリー"]
+
+  - id: "x_basic"
+    title: "X (旧 Twitter) の活用基礎"
+    body: |-
+      タイムラインのアルゴリズム改定により、エンゲージメント (返信・いいね・
+      リポスト) が表示優先に影響します。投稿頻度と質のバランスが重要です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["X", "Twitter", "SNS", "運用"]
+
+  - id: "tiktok_algo"
+    title: "TikTok のアルゴリズム"
+    body: |-
+      フォロワー数より「視聴完了率」「視聴時間」が伸びの鍵。最初の 1 秒で
+      興味を引くフックが必須です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["TikTok", "アルゴリズム", "動画"]
+
+  - id: "line_official"
+    title: "LINE 公式アカウントの基本"
+    body: |-
+      友だち追加から始まる 1to1 マーケティング。配信・自動応答・チャットの
+      組合せでリピートを生みます。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["LINE", "公式アカウント", "リピトル"]

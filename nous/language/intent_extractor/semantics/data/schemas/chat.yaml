@@ -1,0 +1,6 @@
+schema_id: "chat"
+# 社交 intent は最優先 (挨拶/感謝/了承 が出たら他を凌駕)
+priority: 100
+must_have:
+  concepts: ["挨拶", "感謝", "了承"]
+slots: {}

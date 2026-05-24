@@ -1,0 +1,43 @@
+# Intent ルーティング: (schema_id, speech_act) → intent
+#
+# 意味層の schema_id を尊重しつつ、語用層の speech_act で最終調整。
+# 8 intent: ask_lesson / ask_roadmap / ask_faq / ask_study / ask_general /
+#           withdraw / inquiry / chat
+
+routes:
+  # schema_id がそのまま intent になるケース (デフォルト)
+  - schema_id: "ask_lesson"
+    intent: "ask_lesson"
+  - schema_id: "ask_roadmap"
+    intent: "ask_roadmap"
+  - schema_id: "ask_faq"
+    intent: "ask_faq"
+  - schema_id: "ask_study"
+    intent: "ask_study"
+  - schema_id: "ask_general"
+    intent: "ask_general"
+  - schema_id: "withdraw"
+    intent: "withdraw"
+  - schema_id: "inquiry"
+    intent: "inquiry"
+  - schema_id: "chat"
+    intent: "chat"
+
+# schema_id が空 (semantics 層が選べなかった) の場合の fallback
+fallback:
+  - when_speech_act: "greeting"
+    intent: "chat"
+  - when_speech_act: "thanks"
+    intent: "chat"
+  - when_speech_act: "acknowledgment"
+    intent: "chat"
+  - when_speech_act: "inquiry"
+    intent: "inquiry"
+  - when_speech_act: "question"
+    intent: "ask_general"
+  - when_speech_act: "want_info"
+    intent: "ask_general"
+  - when_speech_act: "request"
+    intent: "ask_general"
+  - when_speech_act: "*"
+    intent: "ask_general"   # 究極の fallback

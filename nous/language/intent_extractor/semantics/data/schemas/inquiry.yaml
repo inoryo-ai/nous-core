@@ -1,0 +1,8 @@
+schema_id: "inquiry"
+priority: 90
+must_have:
+  concepts: ["問い合わせ"]
+slots:
+  topic:
+    required: false
+    source: "wo|topic|no"

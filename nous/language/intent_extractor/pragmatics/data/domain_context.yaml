@@ -1,0 +1,16 @@
+# Domain-specific context overrides (example: marketing learning platform)
+#
+# category_hint の決定など、ドメイン特有の調整。差し替え可能。
+
+# token.features.category を優先順で見て category_hint を決める。
+# 複数候補がある場合は higher_priority を採用。
+category_priority:
+  - "ga4"
+  - "ec"
+  - "sns"
+  - "ad"
+  - "seo"
+  - "web"
+  - "marketing"
+  - "course"
+  - "general"

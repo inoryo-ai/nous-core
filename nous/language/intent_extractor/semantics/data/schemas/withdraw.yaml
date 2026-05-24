@@ -1,0 +1,6 @@
+schema_id: "withdraw"
+# action 系は情報系より優先 (「退会方法を教えて」は ask_lesson でなく withdraw)
+priority: 90
+must_have:
+  concepts: ["退会"]
+slots: {}

@@ -1,0 +1,82 @@
+# 動詞 項構造辞書 (verb frames)
+#
+# 動詞の lemma に対して、デフォルトの項構造 (どの格を取りうるか) を定義する。
+# 省略補完で「誰が」「何を」を補う際の参照元。
+#
+# 形式:
+#   frames:
+#     <lemma>:
+#       roles:    [必須格]
+#       optional: [任意格]
+#       defaults:
+#         <role>: <デフォルト値の意味>   # 省略補完で使う
+#       speech_act_hint: <発話機能ヒント>  # 語用層で使う
+
+frames:
+  # === 教示・依頼系 ===
+  "教える":
+    roles: ["wo"]
+    optional: ["ga", "ni"]
+    defaults:
+      ga: "speaker_or_system"
+      ni: "speaker"
+    speech_act_hint: "request"
+  "知る":
+    roles: ["wo"]
+    optional: ["ga"]
+    defaults:
+      ga: "speaker"
+    speech_act_hint: "want_info"
+  "聞く":
+    roles: ["wo"]
+    optional: ["ni"]
+    speech_act_hint: "request"
+
+  # === 使い方・操作系 ===
+  "使う":
+    roles: ["wo"]
+    optional: ["ga", "de"]
+  "見る":
+    roles: ["wo"]
+    optional: ["ga"]
+  "設定する":
+    roles: ["wo"]
+    optional: ["ga"]
+  "確認する":
+    roles: ["wo"]
+    optional: ["ga"]
+
+  # === ドメイン動詞 (学習プラットフォーム例) ===
+  "受講する":
+    roles: ["wo"]
+    optional: ["ga"]
+  "退会する":
+    roles: []
+    optional: ["ga", "kara"]
+    defaults:
+      ga: "speaker"
+    speech_act_hint: "request_action"
+  "解約する":
+    roles: []
+    optional: ["ga"]
+    defaults:
+      ga: "speaker"
+    speech_act_hint: "request_action"
+  "問い合わせる":
+    roles: ["wo"]
+    optional: ["ga", "ni"]
+    speech_act_hint: "inquiry"
+
+  # === 願望・依頼 (助動詞「たい」と組み合わせ) ===
+  "やめる":
+    roles: ["wo"]
+    optional: ["ga"]
+    speech_act_hint: "request_action"
+
+  # === コピュラ系 (係り受け終端) ===
+  "だ":
+    roles: ["ga"]
+    speech_act_hint: "statement"
+  "です":
+    roles: ["ga"]
+    speech_act_hint: "statement"

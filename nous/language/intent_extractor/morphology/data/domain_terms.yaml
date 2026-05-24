@@ -1,0 +1,82 @@
+# Generic domain term dictionary (default).
+# Used by Morphology layer for longest-match preemption + category labeling.
+#
+# Replace / extend per deployment. The terms below are public industry terms
+# (web marketing / analytics / e-commerce) included to show the schema and
+# to keep example tests green.
+#
+# Schema:
+#   terms:
+#     - surface: "<表層>"          # token surface
+#       lemma: "<原形>"            # optional, defaults to surface
+#       pos: "noun"               # simplified POS
+#       category: "<カテゴリ>"      # propagated into Concept.category
+#       aliases: ["<別表記>"]      # optional, normalized to canonical surface
+
+terms:
+  # === Analytics ===
+  - surface: "GA4"
+    lemma: "GA4"
+    pos: "noun"
+    category: "ga4"
+    aliases: ["Google Analytics 4", "ga4"]
+  - surface: "Google Analytics"
+    lemma: "Google Analytics"
+    pos: "noun"
+    category: "ga4"
+  - surface: "コンバージョン"
+    lemma: "コンバージョン"
+    pos: "noun"
+    category: "ga4"
+    aliases: ["CV", "cv"]
+
+  # === SNS ===
+  - surface: "Instagram"
+    lemma: "Instagram"
+    pos: "noun"
+    category: "sns"
+    aliases: ["インスタ", "instagram", "IG"]
+  - surface: "Twitter"
+    lemma: "Twitter"
+    pos: "noun"
+    category: "sns"
+    aliases: ["X", "ツイッター"]
+
+  # === EC ===
+  - surface: "Shopify"
+    lemma: "Shopify"
+    pos: "noun"
+    category: "ec"
+    aliases: ["shopify"]
+  - surface: "BASE"
+    lemma: "BASE"
+    pos: "noun"
+    category: "ec"
+
+  # === 一般語 (often broken up by fugashi) ===
+  - surface: "使い方"
+    lemma: "使い方"
+    pos: "noun"
+    category: "general"
+  - surface: "導入"
+    lemma: "導入"
+    pos: "noun"
+    category: "general"
+  - surface: "退会"
+    lemma: "退会"
+    pos: "noun"
+    category: "general"
+    aliases: ["解約"]
+  - surface: "運用"
+    lemma: "運用"
+    pos: "noun"
+    category: "general"
+  - surface: "広告"
+    lemma: "広告"
+    pos: "noun"
+    category: "ad"
+  - surface: "ロードマップ"
+    lemma: "ロードマップ"
+    pos: "noun"
+    category: "course"
+    aliases: ["全体像", "進め方"]

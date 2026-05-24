@@ -1,0 +1,17 @@
+category: web
+chunks:
+  - id: "lp_basic"
+    title: "LP (ランディングページ) の構成"
+    body: |-
+      ファーストビュー / 問題提起 / ベネフィット / 信頼 (事例・声) /
+      CTA がゴールデン構成。CV ゴールを 1 つに絞るのが鉄則です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["LP", "ランディングページ", "CV"]
+
+  - id: "wp_basic"
+    title: "WordPress の基本"
+    body: |-
+      テーマで見た目、プラグインで機能を拡張。バックアップ・更新・セキュリ
+      ティ対策が運用の 3 本柱です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["WordPress", "CMS"]

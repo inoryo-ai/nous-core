@@ -1,0 +1,25 @@
+category: ad
+chunks:
+  - id: "google_ads_basic"
+    title: "Google 広告の基本"
+    body: |-
+      検索広告 / ディスプレイ / 動画 / ショッピング / アプリの 5 系統。
+      まず検索広告で顕在層を取り、ディスプレイで認知拡大が定石です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["Google広告", "リスティング広告", "検索広告"]
+
+  - id: "meta_ads_basic"
+    title: "Meta 広告の基本"
+    body: |-
+      Facebook/Instagram に出稿。興味関心ターゲティング+類似オーディエンスで
+      未顕在層にリーチできます。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["Meta広告", "Facebook広告", "Instagram広告"]
+
+  - id: "ad_metrics"
+    title: "CPA / CPC / ROAS の関係"
+    body: |-
+      CPC × CV率 = CPA、売上 ÷ 広告費 = ROAS。CPA を下げるには CTR と
+      CVR を上げ、入札 (CPC) を最適化する流れが基本です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["CPA", "CPC", "ROAS", "CTR", "計測"]

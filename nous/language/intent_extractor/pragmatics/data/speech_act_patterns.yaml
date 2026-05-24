@@ -1,0 +1,72 @@
+# 発話機能パターン (speech act classification)
+#
+# 統語層の sentence_type + 文末の助詞・助動詞・補助動詞 から発話機能を分類。
+# 認知辞典「構造選択」(語用階層) を実装。
+#
+# 評価順: rules を上から順に試し、最初に match したものを採用 (priority 順)。
+#
+# 形式:
+#   rules:
+#     - name: <識別子>
+#       speech_act: <出力ラベル>
+#       conditions:
+#         sentence_type: <type>           # 任意
+#         contains_lemma: [...]           # 任意 (いずれか1つ含む)
+#         contains_canonical: [...]       # 意味層 concept canonical
+#         contains_surface: [...]         # token surface
+#         predicate_cform: [...]          # 述語の cForm
+
+rules:
+  # === 挨拶・感謝・了承 (chat) ===
+  - name: "greeting"
+    speech_act: "greeting"
+    conditions:
+      contains_canonical: ["挨拶"]
+
+  - name: "thanks"
+    speech_act: "thanks"
+    conditions:
+      contains_canonical: ["感謝"]
+
+  - name: "acknowledgment"
+    speech_act: "acknowledgment"
+    conditions:
+      contains_canonical: ["了承"]
+
+  # === ドメイン特化 intent (汎用 request より優先) ===
+  - name: "inquiry"
+    speech_act: "inquiry"
+    conditions:
+      contains_canonical: ["問い合わせ"]
+
+  - name: "withdraw_intent"
+    speech_act: "request_action"
+    conditions:
+      contains_canonical: ["退会"]
+
+  # === 依頼 (request) ===
+  - name: "te_kudasai"
+    speech_act: "request"
+    conditions:
+      sentence_type: "imperative"
+
+  - name: "tai_request"
+    speech_act: "request_action"
+    conditions:
+      contains_lemma: ["たい", "ほしい", "欲しい"]
+
+  - name: "want_info"
+    speech_act: "want_info"
+    conditions:
+      contains_canonical: ["情報取得"]
+
+  # === 疑問 (question) ===
+  - name: "interrogative"
+    speech_act: "question"
+    conditions:
+      sentence_type: "interrogative"
+
+  # === fallback ===
+  - name: "default_statement"
+    speech_act: "statement"
+    conditions: {}

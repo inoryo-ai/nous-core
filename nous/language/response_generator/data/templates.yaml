@@ -1,0 +1,111 @@
+# レスポンステンプレート (Phase B.1)
+#
+# slot:
+#   {topic}      filled_schema.topic or category_hint
+#   {chunks}     検索結果のリスト整形
+#   {first_title} 最上位 chunk のタイトル
+#   {category}   category_hint 日本語名
+
+templates:
+  # === ask_lesson: 使い方系。知識検索を含む ===
+  ask_lesson_polite:
+    needs_retrieval: true
+    body: |-
+      「{topic}」の使い方についてですね。以下の項目が参考になります。
+      {chunks}
+      ご不明な点があれば、もう少し具体的に教えてください。
+  ask_lesson_no_hit:
+    needs_retrieval: true
+    body: |-
+      「{topic}」の使い方ですね。該当する詳細資料が見つからなかったため、
+      担当に確認のうえご連絡します。もう少し具体的に教えていただけますか？
+
+  # === ask_roadmap ===
+  ask_roadmap_polite:
+    needs_retrieval: true
+    body: |-
+      学習ロードマップをご案内します。
+      {chunks}
+      気になるステップがあればお知らせください。
+  ask_roadmap_no_hit:
+    needs_retrieval: false
+    body: |-
+      学習ロードマップをお見せしたいのですが、対象データが見当たりませんでした。
+      お手数ですが「{topic}」周辺について少し補足いただけますか？
+
+  # === ask_faq ===
+  ask_faq_polite:
+    needs_retrieval: true
+    body: |-
+      よくある質問の中から関連するものをまとめました。
+      {chunks}
+  ask_faq_no_hit:
+    needs_retrieval: false
+    body: |-
+      FAQ ページから関連項目を探しましたが、該当が見つかりませんでした。
+      問い合わせフォームからもご質問いただけます。
+
+  # === ask_study ===
+  ask_study_polite:
+    needs_retrieval: true
+    body: |-
+      課題についてのご質問ですね。
+      {chunks}
+      添削が必要な場合は提出フォームからお送りください。
+  ask_study_no_hit:
+    needs_retrieval: false
+    body: |-
+      課題のサポートに入ります。お手数ですがどの課題かをお教えいただけますか？
+
+  # === ask_general ===
+  ask_general_polite:
+    needs_retrieval: true
+    body: |-
+      ご質問ありがとうございます。関連する情報をお伝えします。
+      {chunks}
+      他に確認したいことがあればお申し付けください。
+  ask_general_no_hit:
+    needs_retrieval: false
+    body: |-
+      ご質問ありがとうございます。お調べしますので、もう少し詳しくお聞かせいただけますか？
+
+  # === withdraw ===
+  withdraw_polite:
+    needs_retrieval: true
+    body: |-
+      退会の手続きについてご案内します。
+      {chunks}
+      手続きに進む前に確認したい点があればお知らせください。
+  withdraw_no_hit:
+    needs_retrieval: false
+    body: |-
+      退会の手続きについてご案内します。担当者から手順をご案内しますので、
+      お手数ですがしばらくお待ちください。
+
+  # === inquiry ===
+  inquiry_polite:
+    needs_retrieval: false
+    body: |-
+      お問い合わせを受け付けます。差し支えなければ、ご相談内容を簡単に
+      お聞かせいただけますか？担当者からご連絡いたします。
+
+  # === chat (greeting/thanks/acknowledgment) ===
+  chat_greeting:
+    needs_retrieval: false
+    body: |-
+      こんにちは！本日はどのようなご用件でしょうか？
+  chat_thanks:
+    needs_retrieval: false
+    body: |-
+      こちらこそありがとうございます。引き続き何かありましたらお声がけください。
+  chat_acknowledgment:
+    needs_retrieval: false
+    body: |-
+      かしこまりました。他にもご不明点があればお気軽にどうぞ。
+
+  # === fallback (低信頼度) ===
+  clarify_low_confidence:
+    needs_retrieval: false
+    body: |-
+      ご質問内容を取り違えていないか確認させてください。
+      もう少し詳しくお伝えいただけますでしょうか？

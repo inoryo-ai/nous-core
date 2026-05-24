@@ -1,0 +1,177 @@
+# 助詞セマンティクス辞書
+#
+# fugashi+UniDic で「助詞」と判定された surface に、機能ラベルを付与する。
+# 同表層で複数の機能を持つ助詞 (「の」「で」「と」「から」等) は UniDic pos2
+# で曖昧解消する。各 surface の値はリストで、上から順に when_pos2 を試す。
+#
+# 形式:
+#   particles:
+#     <表層>:
+#       - when_pos2: <UniDic pos2 名 or "*">
+#         function: <機能ラベル>
+#         role:     <格役割>  (格助詞のみ)
+#         notes:    <補足>
+
+particles:
+  # === 格助詞 (case markers) ===
+  "が":
+    - when_pos2: "格助詞"
+      function: "case_marker"
+      role: "ga"
+    - when_pos2: "接続助詞"
+      function: "concessive"
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "ga"
+
+  "を":
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "wo"
+
+  "に":
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "ni"
+      notes: "動的ゲート: 与格/場所/時刻/方向は文脈で切り替え"
+
+  "へ":
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "e"
+
+  "で":
+    - when_pos2: "格助詞"
+      function: "case_marker"
+      role: "de"
+      notes: "場所/手段/原因"
+    - when_pos2: "接続助詞"
+      function: "conjunctive"
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "de"
+
+  "と":
+    - when_pos2: "格助詞"
+      function: "case_marker"
+      role: "to"
+    - when_pos2: "接続助詞"
+      function: "conditional"
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "to"
+
+  "から":
+    - when_pos2: "格助詞"
+      function: "case_marker"
+      role: "kara"
+    - when_pos2: "接続助詞"
+      function: "reason"
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "kara"
+
+  "まで":
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "made"
+
+  "より":
+    - when_pos2: "*"
+      function: "case_marker"
+      role: "yori"
+
+  # === 連体/準体助詞 ===
+  "の":
+    - when_pos2: "格助詞"
+      function: "adnominal"
+      role: "no"
+      notes: "意味階層の動的ゲート: 所有/属性/同格/準体"
+    - when_pos2: "準体助詞"
+      function: "nominalizer"
+    - when_pos2: "終助詞"
+      function: "sentence_final"
+      notes: "疑問 (上昇調) / 説明"
+    - when_pos2: "*"
+      function: "adnominal"
+      role: "no"
+
+  # === 係助詞 (topic / focus) ===
+  "は":
+    - when_pos2: "*"
+      function: "topic_marker"
+      role: "topic"
+  "も":
+    - when_pos2: "*"
+      function: "additive"
+  "こそ":
+    - when_pos2: "*"
+      function: "focus"
+  "さえ":
+    - when_pos2: "*"
+      function: "focus"
+  "しか":
+    - when_pos2: "*"
+      function: "focus_neg"
+  "だけ":
+    - when_pos2: "*"
+      function: "delimitative"
+  "ばかり":
+    - when_pos2: "*"
+      function: "delimitative"
+  "ほど":
+    - when_pos2: "*"
+      function: "degree"
+  "など":
+    - when_pos2: "*"
+      function: "exemplification"
+
+  # === 接続助詞 (clause connectives) ===
+  "て":
+    - when_pos2: "*"
+      function: "conjunctive"
+  "ば":
+    - when_pos2: "*"
+      function: "conditional"
+  "ので":
+    - when_pos2: "*"
+      function: "reason"
+  "のに":
+    - when_pos2: "*"
+      function: "concessive"
+  "けど":
+    - when_pos2: "*"
+      function: "concessive"
+  "けれど":
+    - when_pos2: "*"
+      function: "concessive"
+  "けれども":
+    - when_pos2: "*"
+      function: "concessive"
+
+  # === 終助詞 (sentence-final / illocutionary) ===
+  "か":
+    - when_pos2: "*"
+      function: "sentence_final"
+      notes: "疑問。語用階層 speech_act='question' のトリガー"
+  "ね":
+    - when_pos2: "*"
+      function: "sentence_final"
+      notes: "確認 / 同意要求"
+  "よ":
+    - when_pos2: "*"
+      function: "sentence_final"
+      notes: "強調 / 通知"
+  "な":
+    - when_pos2: "*"
+      function: "sentence_final"
+      notes: "禁止 / 詠嘆"
+  "わ":
+    - when_pos2: "*"
+      function: "sentence_final"
+  "ぞ":
+    - when_pos2: "*"
+      function: "sentence_final"
+  "って":
+    - when_pos2: "*"
+      function: "quotative"

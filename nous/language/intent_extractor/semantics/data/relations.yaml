@@ -1,0 +1,21 @@
+# 関係抽出ルール
+#
+# 「の」助詞による関係構築の動的ゲート (意味階層)。
+# 形式: <左の概念カテゴリ> + の + <右の概念カテゴリ> → 関係種別
+
+no_relations:
+  - left_category: "ga4"
+    right_concept: "操作方法"
+    relation: "of"
+  - left_category: "ec"
+    right_concept: "操作方法"
+    relation: "of"
+  - left_category: "sns"
+    right_concept: "操作方法"
+    relation: "of"
+  - left_category: "*"
+    right_concept: "操作方法"
+    relation: "of"
+  - left_category: "*"
+    right_category: "*"
+    relation: "of"

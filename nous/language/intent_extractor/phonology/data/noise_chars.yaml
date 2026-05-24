@@ -1,0 +1,16 @@
+# Noise characters — 入力ノイズの除去対象
+#
+# 制御文字 (U+0000-U+001F, U+007F) と ZWJ/ZWNJ/BOM 等は preprocessor.py
+# 内で自動除去する。本ファイルではドメイン固有の追加除去対象を記述する。
+#
+# 形式:
+#   remove: ["<char1>", "<char2>", ...]
+#   keep:   ["<char>"]   # 自動除去対象から復活させる場合
+
+remove:
+  - "\u200b"   # zero-width space
+  - "\u200c"   # zero-width non-joiner
+  - "\u200d"   # zero-width joiner
+  - "\ufeff"   # BOM
+
+keep: []

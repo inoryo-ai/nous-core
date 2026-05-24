@@ -1,0 +1,10 @@
+schema_id: "ask_roadmap"
+priority: 60
+must_have:
+  concepts: ["ロードマップ"]
+boost:
+  concepts: ["教示要求", "情報取得"]
+slots:
+  topic:
+    required: false
+    source: "wo|topic|no"

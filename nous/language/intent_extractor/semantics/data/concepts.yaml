@@ -1,0 +1,65 @@
+# 概念辞書 (concept lexicon)
+#
+# 単語 surface/lemma → 標準化された概念名 (canonical concept) にマッピング。
+# 認知辞典 5 形態のうち「クラスタ保存」(意味階層) を実装。
+#
+# 形式:
+#   concepts:
+#     - canonical: "<概念名>"
+#       category:  "<上位カテゴリ>"
+#       surfaces:  ["<語1>", "<語2>", ...]
+
+concepts:
+  # === 操作・行為 ===
+  - canonical: "教示要求"
+    category: "intent_action"
+    surfaces: ["教える", "教えて", "教えてください", "教示", "指導", "案内"]
+  - canonical: "情報取得"
+    category: "intent_action"
+    surfaces: ["知る", "知りたい", "確認する", "確認", "見る", "調べる", "検索する"]
+  - canonical: "学習"
+    category: "intent_action"
+    surfaces: ["学ぶ", "勉強する", "受講する", "受講"]
+  - canonical: "操作方法"
+    category: "intent_action"
+    surfaces: ["使い方", "使う", "やり方", "方法", "手順",
+               "設定方法", "操作方法", "利用方法"]
+  - canonical: "問い合わせ"
+    category: "intent_action"
+    surfaces: ["問い合わせる", "問い合わせ", "問い合わせする", "相談", "相談する"]
+  - canonical: "退会"
+    category: "intent_action"
+    surfaces: ["退会", "退会する", "退会方法",
+               "解約", "解約する", "解約方法", "解除", "解除する",
+               "やめる", "辞める", "止める"]
+
+  # === メタ ===
+  - canonical: "FAQ"
+    category: "meta"
+    surfaces: ["FAQ", "FAQページ", "よくある質問", "Q&A"]
+  - canonical: "ロードマップ"
+    category: "meta"
+    # 単独「ステップ」は他文脈 (ステップメール等) と衝突するため除外。
+    # 複合語のみ ロードマップ に紐付ける。
+    surfaces: ["ロードマップ", "全体像", "進め方",
+               "全体のステップ", "学習ステップ", "受講ステップ",
+               "学習ロードマップ", "受講ロードマップ"]
+  - canonical: "課題"
+    category: "meta"
+    surfaces: ["課題", "添削", "宿題", "ワーク"]
+
+  # === 雑談・社交 ===
+  - canonical: "挨拶"
+    category: "social"
+    surfaces: ["こんにちは", "こんばんは", "おはよう", "おはようございます",
+               "はじめまして", "よろしく", "よろしくお願いします"]
+  - canonical: "感謝"
+    category: "social"
+    surfaces: ["ありがとう", "ありがとうございます", "感謝", "感謝する", "感謝します",
+               "助かる", "助かります", "助かりました"]
+  - canonical: "了承"
+    category: "social"
+    # 「わかる」「分かる」を入れて lemma 一致させ、否定形 (わからない/わかりません)
+    # は syntax 層の negated フラグで除外される (semantics/mapper の social 抑制)
+    surfaces: ["わかった", "わかりました", "わかる", "分かる", "分かった", "分かりました",
+               "了解", "了解です", "了解する", "なるほど", "承知", "承知しました", "承知する"]

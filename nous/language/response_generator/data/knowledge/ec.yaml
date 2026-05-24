@@ -1,0 +1,25 @@
+category: ec
+chunks:
+  - id: "shopify_basic"
+    title: "Shopify の使い方の概要"
+    body: |-
+      管理画面で商品登録 → 配送・決済の設定 → テーマで店舗デザイン →
+      ドメイン接続 → 公開。テンプレ豊富で初心者向き。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["Shopify", "EC", "ネットショップ", "ストア構築"]
+
+  - id: "ec_kago_ochi"
+    title: "カゴ落ちの改善"
+    body: |-
+      決済画面の手数料/送料表示、入力フォーム削減、配送日明示、
+      再入荷通知メールなどが代表的な打ち手です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["カゴ落ち", "EC", "コンバージョン", "リカバリ"]
+
+  - id: "ec_repeat"
+    title: "リピート率向上の基本"
+    body: |-
+      初回購入後の同梱物、LINE/メール フォロー、定期便、リピートクーポン、
+      LTV ベースの広告配信が王道です。
+    intents: ["ask_lesson", "ask_general"]
+    tags: ["リピート率", "LTV", "EC"]
