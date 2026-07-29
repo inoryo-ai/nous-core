@@ -1,12 +1,12 @@
 # nous-core
 
-**An AI inference engine that reasons over a curated knowledge base — with zero runtime LLM dependency.**
+**A deterministic knowledge-response engine that answers from a curated knowledge base — with zero runtime LLM dependency.**
 
-Most "AI" products today are a prompt-engineering layer over a remote LLM. That introduces three structural problems: per-token cost, hallucination on anything outside the training data, and external data egress. `nous-core` takes the opposite approach — a small, deterministic inference engine that operates over versioned "Books" (JSON) and returns traceable results. No tokens, no external API calls, no hallucinated facts.
+Most "AI" products today are a prompt-engineering layer over a remote LLM. That introduces three structural problems: per-token cost, hallucination on anything outside the training data, and external data egress. `nous-core` takes the opposite approach — a small, deterministic matching engine that operates over versioned "Books" (JSON) and returns traceable, source-attributed results. No tokens, no external API calls, no hallucinated facts.
 
-The engine is general-purpose: dialogue, FAQ automation, internal knowledge search, customer-support routing, and policy-doc Q&A are all applications built on top of the same inference core.
+The core is intentionally small, so the same matching layer can back different surfaces — FAQ automation, internal knowledge search, or policy-doc Q&A. To date it has been used in production for one of these: inquiry response for an online school.
 
-This is a sanitized public version of the engine powering several in-production AI products.
+This is a sanitized public version of the engine. It currently powers one in-production AI product: an inquiry-response system for an educational-domain client, where `nous-core` handles knowledge matching and a small LLM is used only to phrase the final answer.
 
 ---
 
@@ -156,6 +156,16 @@ nous-core/
 ├── examples/            # Usage examples
 └── tests/               # 90 pytest cases
 ```
+
+---
+
+## Status
+
+Source published for review.
+
+Note: This public mirror was exported after stripping tenant data and secrets,
+so the commit history is squashed. The product's actual evolution is preserved
+in the numbered files under `data/books/` and in the test suite under `tests/`.
 
 ---
 
