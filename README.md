@@ -1,71 +1,86 @@
 # nous-core
 
-**A deterministic knowledge-response engine that answers from a curated knowledge base — with zero runtime LLM dependency.**
+**整備済みナレッジベースから回答する決定論的な知識応答エンジン。実行時の LLM 依存はゼロ。**
 
-Most "AI" products today are a prompt-engineering layer over a remote LLM. That introduces three structural problems: per-token cost, hallucination on anything outside the training data, and external data egress. `nous-core` takes the opposite approach — a small, deterministic matching engine that operates over versioned "Books" (JSON) and returns traceable, source-attributed results. No tokens, no external API calls, no hallucinated facts.
+現在の「AI プロダクト」の多くは、リモート LLM の上に載せたプロンプトエンジニアリング層である。この構成は3つの構造的問題を持ち込む。トークン単価、学習データ外の入力に対するハルシネーション、そして外部へのデータ流出である。
 
-The core is intentionally small, so the same matching layer can back different surfaces — FAQ automation, internal knowledge search, or policy-doc Q&A. To date it has been used in production for one of these: inquiry response for an online school.
+`nous-core` は逆のアプローチを取る。バージョン管理された「Book」（JSON）の上で動作する小さな決定論的マッチングエンジンであり、出典が辿れる結果を返す。トークン消費なし、外部 API 呼び出しなし、捏造された事実なし。
 
-This is a sanitized public version of the engine. It currently powers one in-production AI product: an inquiry-response system for an educational-domain client, where `nous-core` handles knowledge matching and a small LLM is used only to phrase the final answer.
+コアは意図的に小さく保たれており、同じマッチング層で異なる用途を支えられる。FAQ 自動化、社内ナレッジ検索、規程文書の Q&A など。現時点で本番投入されているのはこのうち1つ、オンラインスクールの問い合わせ応答である。
+
+本リポジトリはエンジンの公開版。稼働中の AI プロダクト1件を支えており、そこでは `nous-core` が知識マッチングを担当し、小規模 LLM は最終的な文面整形にのみ使われている。
 
 ---
 
-## Why this exists
+## なぜ作ったか
 
-There is a class of business AI use cases where an LLM is the wrong tool:
+ビジネス AI のユースケースには、LLM が明確に不適切な領域が存在する。
 
-- **Customer support routing** for products with stable, finite knowledge (manuals, FAQs, policy docs)
-- **Internal knowledge search** where outbound data egress is not acceptable
-- **High-call-volume systems** where per-request token cost destroys margins
-- **Regulated domains** where every answer must be auditable back to a source document
+- **カスタマーサポートの振り分け** — 知識が安定・有限（マニュアル、FAQ、規程文書）
+- **社内ナレッジ検索** — 外部へのデータ送信が許容されない
+- **大量呼び出しシステム** — リクエスト単位のトークン費用が利益率を破壊する
+- **規制産業** — すべての回答が出典文書まで監査可能でなければならない
 
-For these, you want a system that says **"I don't know"** instead of inventing an answer, that costs zero at runtime, and that can be traced from input to output. `nous-core` is built for exactly that.
+これらに必要なのは、答えを発明する代わりに **「わかりません」と言う** システム、実行時コストがゼロのシステム、入力から出力まで追跡できるシステムである。`nous-core` はまさにそのために作られている。
 
-| Axis | nous-core | LLM-based assistant |
+| 観点 | nous-core | LLM ベースのアシスタント |
 |---|---|---|
-| Truthfulness | Returns `used_fallback` when no source matches — never invents | Hallucinates plausibly |
-| Runtime cost | Zero (no API calls) | Per-token billing |
-| Data residency | Fully on-prem capable | Sent to vendor |
-| Auditability | Full trace via `Response.trace()` | Black box |
-| Domain customization | Add a Book (JSON), reload | Requires RAG + embeddings + retrieval tuning |
+| 誠実さ | 一致する出典がなければ `used_fallback` を返す。発明しない | もっともらしくハルシネーションする |
+| 実行時コスト | ゼロ（API 呼び出しなし） | トークン従量課金 |
+| データ所在 | 完全オンプレミス対応可能 | ベンダーに送信される |
+| 監査可能性 | `Response.trace()` で全経路を追跡 | ブラックボックス |
+| ドメイン適応 | Book（JSON）を追加してリロード | RAG + 埋め込み + 検索チューニングが必要 |
 
 ---
 
-## How it works
+## 動作の仕組み
 
 ```
-        User query (JP/EN)
+        ユーザークエリ (日本語/英語)
               │
               ▼
    ┌──────────────────────┐
-   │  LanguageEngine      │   tokenize · normalize · classify intent
+   │  LanguageEngine      │   トークナイズ・正規化・意図分類
    └──────────┬───────────┘
               │   (intent, slots)
               ▼
    ┌──────────────────────┐
-   │  Curator             │   route query → relevant Book(s)
+   │  Curator             │   クエリを関連する Book にルーティング
    └──────────┬───────────┘
               │
               ▼
    ┌──────────────────────┐
-   │  KnowledgeStore      │   4 atomic ops: access · equal · greater · similar
-   │  (Bookshelf-backed)  │
+   │  KnowledgeStore      │   4つの原子操作: access · equal · greater · similar
+   │  (Bookshelf 基盤)    │
    └──────────┬───────────┘
-              │   (match or null)
+              │   (一致 or null)
               ▼
    ┌──────────────────────┐
-   │  ResponseComposer    │   format answer · attach source · compute confidence
+   │  ResponseComposer    │   回答整形・出典付与・確信度算出
    └──────────┬───────────┘
               │
               ▼
-        Response (text + trace)
+        Response (テキスト + トレース)
 ```
 
-The whole pipeline is deterministic. Given the same query and the same Books, you get the same answer — every time.
+パイプライン全体が決定論的である。同じクエリと同じ Book を与えれば、毎回同じ答えが返る。
 
 ---
 
-## Quick start
+## 技術選定
+
+| 技術 | 採用理由 | 代替案と不採用理由 |
+|---|---|---|
+| **実行時依存ゼロ（純 Python 標準ライブラリ）** | 想定顧客にはオンプレ／閉域網の環境が含まれ、依存が増えるほど導入審査と保守の負担が増える。`pip install` 一発で入り、脆弱性アップデートの追随対象を持たない構成にした | **numpy / scikit-learn 前提**: 行列演算は不要な規模であり、閉域環境への持ち込み負担に見合わない |
+| **JSON による Book（バージョン管理された知識）** | 知識の更新を非エンジニア（クライアント側の運用担当）が行える必要があった。JSON は差分が Git で追え、レビューでき、変更が回答のどこに効くか追跡できる | **ベクトル DB + 埋め込み**: 「なぜこの回答が出たか」が数値類似度に還元され、監査要件を満たせない。**RDB スキーマ**: 知識構造の変更のたびにマイグレーションが必要で、運用担当が触れない |
+| **決定論的マッチング（4つの原子操作）** | 規制ドメインでは同じ質問に毎回同じ回答が返ることが要件になる。マッチング条件を access / equal / greater / similar の4操作に閉じることで、挙動を全数テスト可能にした（pytest 90 ケース） | **LLM による意図分類**: 同じ入力でも出力が揺れ、回帰テストが成立しない。モデル更新のたびに全回答が変わりうる |
+| **フォールバックの明示（`used_fallback`）** | 業務利用では「間違った回答」が「回答なし」より圧倒的に高コストになる。一致がなければ推測せず、人へエスカレーションする経路を設計に組み込んだ | **最近傍を常に返す**: 確信度が低い回答が正解として扱われ、誤案内の責任問題になる |
+| **FastAPI をオプション依存に分離** | ライブラリとして組み込む利用と、サーバーとして立てる利用の両方がある。コアがサーバーフレームワークに依存すると、前者に不要な依存が伝播する | **サーバー同梱**: ライブラリ利用者に uvicorn / pydantic を強制することになる |
+| **日本語・英語の自前トークナイザ** | MeCab / Sudachi は辞書のインストールが必要で、オンプレ導入時の手順が増える。対象ドメインの語彙は有限であり、汎用形態素解析の精度は要件過剰だった | **MeCab / Sudachi**: 辞書ファイルの配布と更新が閉域環境での運用負担になる |
+
+---
+
+## クイックスタート
 
 ```python
 from nous import Brain
@@ -73,102 +88,100 @@ from nous import Brain
 brain = Brain()
 brain.load_book("manual", "data/books/company_manual.json")
 
-r = brain.ask("How many days of paid leave do we get?")
-print(r.text)          # "Paid leave: 10 days/year..."
+r = brain.ask("有給休暇は何日もらえますか？")
+print(r.text)          # "有給休暇: 年間10日..."
 print(r.source_book)   # "manual"
 print(r.confidence)    # 0.71
 print(r.trace())       # {"intent": ..., "source_book": ..., "matched_key": ...}
 ```
 
-If the answer is not in any loaded Book:
+読み込まれたどの Book にも答えがない場合:
 
 ```python
-r = brain.ask("Tomorrow's weather?")
-r.used_fallback        # True — engine knows it doesn't know
-r.text                 # "I don't have information about this."
+r = brain.ask("明日の天気は？")
+r.used_fallback        # True — エンジンが「知らない」ことを認識している
+r.text                 # "この件に関する情報を持っていません。"
 ```
 
 ---
 
-## Install
+## インストール
 
 ```bash
-pip install -e .             # library only
-pip install -e ".[server]"   # + FastAPI server
+pip install -e .             # ライブラリのみ
+pip install -e ".[server]"   # + FastAPI サーバー
 pip install -e ".[dev]"      # + pytest / ruff / mypy
 ```
 
 ---
 
-## Run the demo server
+## デモサーバーの起動
 
 ```bash
-# Development (local, unauthenticated)
+# 開発用（ローカル・認証なし）
 uvicorn server.main:app --host 127.0.0.1 --port 8000
 
-# Production-ish (API key required, bind locally, reverse-proxy for TLS)
-NOUS_API_KEY=<strong-random-key> \
+# 本番相当（API キー必須・ローカルバインド・TLS はリバースプロキシで）
+NOUS_API_KEY=<強度の高いランダムキー> \
   uvicorn server.main:app --host 127.0.0.1 --port 8000
 ```
 
-Open <http://127.0.0.1:8000> for the built-in demo UI (chat + Book management + dashboard).
+<http://127.0.0.1:8000> を開くと、内蔵のデモ UI（チャット + Book 管理 + ダッシュボード）が表示される。
 
 ---
 
-## Environment variables
+## 環境変数
 
-| Variable | Default | Purpose |
+| 変数 | デフォルト | 用途 |
 |---|---|---|
-| `NOUS_API_KEY` | *unset = open mode* | When set, all mutating + `/ask` + `/chat` endpoints require `X-API-Key` header |
-| `NOUS_MAX_TEXT` | `4000` | Max length of one user query (chars) |
-| `NOUS_MAX_BOOK_BYTES` | `1048576` | Max serialized size of a submitted Book (bytes) |
+| `NOUS_API_KEY` | *未設定 = オープンモード* | 設定時、更新系および `/ask`・`/chat` エンドポイントに `X-API-Key` ヘッダを要求する |
+| `NOUS_MAX_TEXT` | `4000` | 1クエリの最大長（文字数） |
+| `NOUS_MAX_BOOK_BYTES` | `1048576` | 投入される Book のシリアライズ後の最大サイズ（バイト） |
 
 ---
 
-## Security posture
+## セキュリティ方針
 
-The server ships with hardening baked in:
+サーバーには以下のハードニングを組み込み済み。
 
-- **Path-traversal guards** — Book names must match `[A-Za-z0-9_-]{1,64}`; all writes resolve back into `data/books/`
-- **Size limits** — Enforced on `text` (MAX_TEXT) and `content` (MAX_BOOK_BYTES / depth / key count)
-- **XSS-hardened UI** — All user/model-provided strings rendered via `textContent` + DOM APIs; never `innerHTML` with untrusted data
-- **Intent whitelist** — `Response.intent` field clamped server-side to the known set
-- **Optional API-key auth** — `NOUS_API_KEY` env var protects mutating + ask endpoints (constant-time compare)
-- **Default local bind** — `127.0.0.1` recommended for on-prem installs; place behind reverse proxy for TLS
+- **パストラバーサル対策** — Book 名は `[A-Za-z0-9_-]{1,64}` に制限し、書き込みは必ず `data/books/` 配下に解決される
+- **サイズ制限** — `text`（MAX_TEXT）と `content`（MAX_BOOK_BYTES / ネスト深度 / キー数）に対して強制
+- **XSS 対策済み UI** — ユーザー・モデル由来の文字列はすべて `textContent` と DOM API 経由で描画。信頼できないデータを `innerHTML` に渡さない
+- **意図のホワイトリスト** — `Response.intent` フィールドをサーバー側で既知の集合にクランプ
+- **API キー認証（任意）** — `NOUS_API_KEY` で更新系および ask 系エンドポイントを保護（定数時間比較）
+- **デフォルトでローカルバインド** — オンプレ設置では `127.0.0.1` を推奨。TLS はリバースプロキシで終端する
 
-Run `pytest` (90 cases) for regression guarantees on these behaviors.
+これらの挙動に対する回帰保証として `pytest`（90 ケース）を実行できる。
 
 ---
 
-## Project layout
+## ディレクトリ構成
 
 ```
 nous-core/
-├── nous/                # Core library
-│   ├── knowledge/       # KnowledgeStore — 4 atomic ops (access / equal / greater / similar)
-│   ├── language/        # LanguageEngine — JP/EN tokenizer + intent parser
+├── nous/                # コアライブラリ
+│   ├── knowledge/       # KnowledgeStore — 4つの原子操作 (access / equal / greater / similar)
+│   ├── language/        # LanguageEngine — 日英トークナイザ + 意図パーサ
 │   ├── bookshelf/       # Book / WritableBook / BookShelf
-│   ├── curator/         # Curator — bridges BookShelf ⇄ KnowledgeStore
+│   ├── curator/         # Curator — BookShelf ⇄ KnowledgeStore の橋渡し
 │   ├── dialogue/        # DialogueManager + ResponseComposer
-│   └── brain.py         # Top-level public API
-├── server/              # FastAPI wrapper (optional)
-├── data/books/          # Sample Books (online_school, saas_manual)
-├── examples/            # Usage examples
-└── tests/               # 90 pytest cases
+│   └── brain.py         # 最上位の公開 API
+├── server/              # FastAPI ラッパー（任意）
+├── data/books/          # サンプル Book (online_school, saas_manual)
+├── examples/            # 利用例
+└── tests/               # pytest 90 ケース
 ```
 
 ---
 
-## Status
+## ステータス
 
-Source published for review.
+レビュー目的でソースを公開。
 
-Note: This public mirror was exported after stripping tenant data and secrets,
-so the commit history is squashed. The product's actual evolution is preserved
-in the numbered files under `data/books/` and in the test suite under `tests/`.
+※ 公開ミラーはテナントデータとシークレットを除去したうえでエクスポートしているため、コミット履歴を squash している。プロダクトの実際の変遷は `data/books/` 配下の連番ファイルと `tests/` のテストスイートに保存されている。
 
 ---
 
-## License
+## ライセンス
 
-MIT — see [LICENSE](./LICENSE).
+MIT — [LICENSE](./LICENSE) を参照。
